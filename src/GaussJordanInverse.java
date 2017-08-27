@@ -19,7 +19,7 @@ public class GaussJordanInverse {
         for (int i = 0; i < n; i++) {
             System.out.printf("Enter the coefficients of equation %d \n", i + 1);
             for (int j = 0; j < n; j++) {
-                m[i][j] = scanner.nextInt();
+                m[i][j] = scanner.nextDouble();
             }
 
             for(int j = n; j< n + 3; j++) {
