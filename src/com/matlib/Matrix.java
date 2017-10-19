@@ -52,7 +52,7 @@ public class Matrix {
             throw new IndexOutOfBoundsException("Given index j: " + j + " is out of bound");
         }
 
-        m[i][i] = element;
+        m[i][j] = element;
         return this;
     }
 
@@ -69,7 +69,6 @@ public class Matrix {
         double[][] augmentedMatrix = new double[rows][cols + rows];
 
         augmentMatrixWithIdentityMatrix(this, augmentedMatrix);
-
         return augmentedMatrix;
     }
 
@@ -91,16 +90,28 @@ public class Matrix {
     }
 
     private static Matrix findInverse(Matrix augmentedMatrix) {
+
+        doGaussJordanElimination(augmentedMatrix);
+
+        double[][] inverse = new double[augmentedMatrix.rows][augmentedMatrix.rows];
+        for(int i = 0; i < augmentedMatrix.rows; i++) {
+            for (int j = augmentedMatrix.rows, z = 0; j < augmentedMatrix.cols; j++, z++) {
+                inverse[i][z] = augmentedMatrix.element(i, j);
+            }
+        }
+
+        return new Matrix(inverse);
+    }
+
+    private static void doGaussJordanElimination(Matrix augmentedMatrix) {
+
         for (int k = 0; k < augmentedMatrix.rows; k++) {
-            dumpToConsole(augmentedMatrix);
             double coeff = augmentedMatrix.element(k, k);
             if (0 == coeff) {
-//                System.out.printf("Coeffient of cell [%d][%d] is zero \n", k, k);
                 int newIndexOfK = reorderEquation(augmentedMatrix, k);
                 if(newIndexOfK < 0) {
-                    throw new RuntimeException("No swappable equations found");
+                    throw new RuntimeException("No swappable rows found");
                 }
-                System.out.printf("swapped row %d with %d\n", k, newIndexOfK);
                 coeff = augmentedMatrix.element(k, k);
             }
 
@@ -110,21 +121,11 @@ public class Matrix {
             for (int i = 0; i < augmentedMatrix.rows; i++) {
                 if (k == i) continue;
                 for (int j = k + 1; j < augmentedMatrix.cols; j++) {
-                    augmentedMatrix.element(i, j,
-                            augmentedMatrix.element(i, j) -
-                                    (augmentedMatrix.element(k, j) * augmentedMatrix.element(i, k)));
+                    double elem = augmentedMatrix.element(i, j) - (augmentedMatrix.element(k, j) * augmentedMatrix.element(i, k));
+                    augmentedMatrix.element(i, j, elem);
                 }
             }
         }
-
-        double[][] inverse = new double[augmentedMatrix.rows][augmentedMatrix.rows];
-        for(int i = 0; i < augmentedMatrix.rows; i++) {
-            for (int j = augmentedMatrix.rows; j < augmentedMatrix.cols; j++) {
-                inverse[i][j] = augmentedMatrix.element(i, j);
-            }
-        }
-
-        return new Matrix(inverse);
     }
 
     private static int reorderEquation(Matrix augmentedMatrix, int k) {
@@ -148,7 +149,7 @@ public class Matrix {
         }
     }
 
-    private static void dumpToConsole(Matrix matrix) {
+    public static void dumpToConsole(Matrix matrix) {
         for (int i = 0; i < matrix.rows; i++) {
             for (int j = 0; j < matrix.cols; j++) {
                 if (j == matrix.rows) {
