@@ -1,3 +1,4 @@
+import com.matlib.Matrices;
 import com.matlib.Matrix;
 
 import java.util.Scanner;
@@ -22,12 +23,12 @@ public class GaussJordanEliminationWithLib {
         }
 
         Matrix matrix = new Matrix(m);
-        Matrix.dumpToConsole(matrix);
+        Matrices.dumpToConsole(matrix);
         System.out.println("Finding solution................");
 
         Matrix inverse = matrix.inverse();
         System.out.println("Inverse................");
-        Matrix.dumpToConsole(inverse);
+        Matrices.dumpToConsole(inverse);
 
     }
 }
