@@ -3,7 +3,7 @@ import com.matlib.Matrix;
 
 import java.util.Scanner;
 
-public class GaussJordanEliminationWithLib {
+public class InverseWithLib {
     public static void main(String[] args) {
         double m[][];
         Scanner scanner = new Scanner(System.in);

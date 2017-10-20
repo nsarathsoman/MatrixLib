@@ -1,12 +1,15 @@
+package com.matlib;
+
 import java.util.Scanner;
 
 /**
  * Created by sarath on 25/08/17.
  */
-public class GaussJordanElimination {
+public class SolveSysLinearEqnWithLib {
     public static void main(String[] args) {
 
         double m[][];
+        double c[][];
         Scanner scanner = new Scanner(System.in);
         System.out.println("Solution of linear equations");
         System.out.print("Number of unknows: ");
@@ -15,7 +18,8 @@ public class GaussJordanElimination {
             System.out.println("number of unknows cannot be zero or lesser");
             return;
         }
-        m = new double[n][n + 1];
+        m = new double[n][n];
+        c = new double[n][1];
         for (int i = 0; i < n; i++) {
             System.out.printf("Enter the coefficients of equation %d \n", i + 1);
             for (int j = 0; j < n; j++) {
@@ -25,7 +29,7 @@ public class GaussJordanElimination {
 
         for (int i = 0; i < n; i++) {
             System.out.printf("Constant of equation %d : ", i + 1);
-            m[i][n] = scanner.nextDouble();
+            c[i][1] = scanner.nextDouble();
         }
 
 //        printMatrix(m);
